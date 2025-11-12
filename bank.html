@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoumyaBank - Simple Bank System</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Font: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+    /* Smooth fade animation for modal */
+    .fade-enter {
+      opacity: 0;
+      transform: scale(0.95);
+      transition: all 0.3s ease;
+    }
+    .fade-enter-active {
+      opacity: 1;
+      transform: scale(1);
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 min-h-screen flex flex-col items-center">
+
+  <!-- Navbar -->
+  <nav class="w-full bg-white/40 backdrop-blur-md shadow-md fixed top-0 left-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <div class="w-9 h-9 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold shadow-sm">S</div>
+        <span class="text-xl font-bold text-indigo-700">SoumyaBank</span>
+      </div>
+
+      <div class="flex space-x-6 text-gray-800 font-medium">
+        <a href="#" onclick="openAbout()" class="hover:text-indigo-600 transition">About</a>
+        <a href="https://www.linkedin.com/in/soumyaranjanlink/" target="_blank" class="hover:text-indigo-600 transition">LinkedIn</a>
+        <a href="https://github.com/SoumyaranjanDS" target="_blank" class="hover:text-indigo-600 transition">GitHub</a>
+        <a href="https://mail.google.com/mail/u/0/#inbox?compose=GTvVlcSKjRRRLQWVsCGfVJwpmwrqCPdnlMbBSrfsznpnlHGppLwqzqNBvHWzdGPtxdptbvdHbSqjz" target="_blank" class="hover:text-indigo-600 transition">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="w-full max-w-2xl bg-white/40 backdrop-blur-md shadow-xl rounded-2xl p-6 mt-28 mb-10 border border-white/30">
+    <h1 class="text-3xl font-bold text-center text-indigo-700 mb-6">Welcome to SoumyaBank</h1>
+
+    <!-- Menu Buttons -->
+    <div class="flex flex-wrap justify-center gap-2 mb-4">
+      <button onclick="showSection('create')" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">Create Account</button>
+      <button onclick="showSection('deposit')" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">Deposit</button>
+      <button onclick="showSection('withdraw')" class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition">Withdraw</button>
+      <button onclick="showSection('check')" class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition">Check Balance</button>
+      <button onclick="showSection('view')" class="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition">View All</button>
+    </div>
+
+    <div id="message" class="text-center text-sm mb-3 text-blue-700 font-semibold"></div>
+
+    <!-- Create -->
+    <div id="create" class="hidden">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Create Account</h2>
+      <input id="createAccNo" type="number" placeholder="Account Number" class="w-full mb-2 border rounded p-2" />
+      <input id="createName" type="text" placeholder="Name" class="w-full mb-2 border rounded p-2" />
+      <input id="createBalance" type="number" placeholder="Initial Balance" class="w-full mb-2 border rounded p-2" />
+      <button onclick="createAccount()" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">Create</button>
+    </div>
+
+    <!-- Deposit -->
+    <div id="deposit" class="hidden">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Deposit Money</h2>
+      <input id="depositAccNo" type="number" placeholder="Account Number" class="w-full mb-2 border rounded p-2" />
+      <input id="depositAmount" type="number" placeholder="Amount" class="w-full mb-2 border rounded p-2" />
+      <button onclick="depositMoney()" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition">Deposit</button>
+    </div>
+
+    <!-- Withdraw -->
+    <div id="withdraw" class="hidden">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Withdraw Money</h2>
+      <input id="withdrawAccNo" type="number" placeholder="Account Number" class="w-full mb-2 border rounded p-2" />
+      <input id="withdrawAmount" type="number" placeholder="Amount" class="w-full mb-2 border rounded p-2" />
+      <button onclick="withdrawMoney()" class="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600 transition">Withdraw</button>
+    </div>
+
+    <!-- Check -->
+    <div id="check" class="hidden">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Check Balance</h2>
+      <input id="checkAccNo" type="number" placeholder="Account Number" class="w-full mb-2 border rounded p-2" />
+      <button onclick="checkBalance()" class="w-full bg-indigo-500 text-white py-2 rounded hover:bg-indigo-600 transition">Check</button>
+    </div>
+
+    <!-- View All -->
+    <div id="view" class="hidden">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">All Accounts</h2>
+      <div id="accountsList" class="text-sm bg-white/60 backdrop-blur-md border rounded p-3"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-auto py-4 text-center text-gray-700 text-sm bg-white/20 backdrop-blur-md w-full border-t border-white/30">
+    © 2025 SoumyaBank. All rights reserved.
+  </footer>
+
+  <!-- About Modal -->
+  <div id="aboutModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div class="bg-white/70 backdrop-blur-md w-11/12 max-w-2xl p-6 rounded-2xl shadow-2xl relative text-gray-800" onclick="event.stopPropagation()">
+      <button onclick="closeAbout()" class="absolute top-3 right-4 text-gray-600 hover:text-red-500 text-xl">&times;</button>
+      <h2 class="text-2xl font-bold text-indigo-700 mb-3">About Me — Soumyaranjan Sahoo</h2>
+      <p class="text-sm leading-relaxed">
+        I am <strong>Soumyaranjan Sahoo</strong>, an MCA student at <strong>TACT Bhubaneswar</strong>, passionate about creating clean, responsive, and efficient web applications.
+        I completed my <strong>B.Sc. in Computer Science</strong> in 2025 and began my MCA the same year to enhance my skills in web development and software design.
+      </p>
+      <p class="mt-2 text-sm leading-relaxed">
+        My skills include <strong>C</strong>, <strong>Python (basic)</strong>, <strong>HTML5</strong>, <strong>CSS</strong>, <strong>TailwindCSS</strong>, <strong>JavaScript</strong>, and <strong>SQL</strong>. 
+        I enjoy working on projects that combine logic and design, such as <strong>website clones</strong> and <strong>simple management systems</strong>. 
+        I’m constantly learning and exploring modern tools and frameworks to grow as a developer.
+      </p>
+      <p class="mt-2 text-sm leading-relaxed">
+        My goal is to contribute to real-world projects that make a difference while continuously learning and improving as a full-stack developer.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const accounts = {};
+
+    function showSection(section) {
+      document.getElementById("message").innerText = "";
+      ["create", "deposit", "withdraw", "check", "view"].forEach(s =>
+        document.getElementById(s).classList.add("hidden")
+      );
+      document.getElementById(section).classList.remove("hidden");
+      if (section === "view") viewAllAccounts();
+    }
+
+    function createAccount() {
+      const accNo = document.getElementById("createAccNo").value;
+      const name = document.getElementById("createName").value;
+      const balance = parseFloat(document.getElementById("createBalance").value);
+      if (!accNo || !name || isNaN(balance)) return showMessage("Please fill all fields correctly.", "red");
+      if (accounts[accNo]) return showMessage("Account already exists!", "red");
+      accounts[accNo] = { name, balance };
+      showMessage(`Account created successfully for ${name}.`, "green");
+      clearInputs("create");
+    }
+
+    function depositMoney() {
+      const accNo = document.getElementById("depositAccNo").value;
+      const amount = parseFloat(document.getElementById("depositAmount").value);
+      if (!accounts[accNo]) return showMessage("Invalid account number.", "red");
+      if (isNaN(amount) || amount <= 0) return showMessage("Enter a valid amount.", "red");
+      accounts[accNo].balance += amount;
+      showMessage(`Deposit successful. New balance: ${accounts[accNo].balance}`, "green");
+      clearInputs("deposit");
+    }
+
+    function withdrawMoney() {
+      const accNo = document.getElementById("withdrawAccNo").value;
+      const amount = parseFloat(document.getElementById("withdrawAmount").value);
+      if (!accounts[accNo]) return showMessage("Invalid account number.", "red");
+      if (isNaN(amount) || amount <= 0) return showMessage("Enter a valid amount.", "red");
+      if (amount > accounts[accNo].balance) return showMessage("Insufficient balance!", "red");
+      accounts[accNo].balance -= amount;
+      showMessage(`Withdraw successful. New balance: ${accounts[accNo].balance}`, "green");
+      clearInputs("withdraw");
+    }
+
+    function checkBalance() {
+      const accNo = document.getElementById("checkAccNo").value;
+      if (!accounts[accNo]) return showMessage("Invalid account number.", "red");
+      showMessage(`Account balance: ${accounts[accNo].balance}`, "green");
+      clearInputs("check");
+    }
+
+    function viewAllAccounts() {
+      const container = document.getElementById("accountsList");
+      container.innerHTML = "";
+      if (Object.keys(accounts).length === 0) return container.innerHTML = "<p>No accounts available.</p>";
+      for (let accNo in accounts) {
+        const acc = accounts[accNo];
+        container.innerHTML += `
+          <div class="border-b border-gray-300 py-2">
+            <p><strong>Acc No:</strong> ${accNo}</p>
+            <p><strong>Name:</strong> ${acc.name}</p>
+            <p><strong>Balance:</strong> ${acc.balance}</p>
+          </div>`;
+      }
+    }
+
+    function clearInputs(section) {
+      document.querySelectorAll(`#${section} input`).forEach(i => i.value = "");
+    }
+
+    function showMessage(msg, color) {
+      const el = document.getElementById("message");
+      el.innerText = msg;
+      el.className = `text-center mb-3 font-semibold text-${color}-600`;
+    }
+
+    // About Modal functions
+    const aboutModal = document.getElementById("aboutModal");
+
+    function openAbout() {
+      aboutModal.classList.remove("hidden");
+      setTimeout(() => aboutModal.firstElementChild.classList.add("fade-enter-active"), 10);
+    }
+
+    function closeAbout() {
+      aboutModal.classList.add("hidden");
+      aboutModal.firstElementChild.classList.remove("fade-enter-active");
+    }
+
+    // Close modal when clicking outside
+    aboutModal.addEventListener("click", () => closeAbout());
+
+    showSection("create");
+  </script>
+
+</body>
+</html>
