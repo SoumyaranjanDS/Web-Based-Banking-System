@@ -24,38 +24,52 @@
       opacity: 1;
       transform: scale(1);
     }
+
+    .nav-glow {
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.25);
+    }
+
+    /* Mobile menu sliding effect */
+    .mobile-menu-enter {
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
+    }
+    .mobile-menu-enter-active {
+      transform: translateX(0);
+    }
   </style>
 </head>
 
 <body class="bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 min-h-screen flex flex-col items-center">
 
   <!-- Navbar -->
-  <nav class="w-full bg-white/40 backdrop-blur-md shadow-md fixed top-0 left-0 z-50">
+  <nav class="w-full fixed top-0 left-0 z-50 bg-gradient-to-r from-indigo-500/50 via-purple-500/50 to-pink-400/40 backdrop-blur-md border-b border-white/20 nav-glow">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-      <!-- Logo -->
-      <div class="flex items-center space-x-2">
-        <div class="w-9 h-9 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">S</div>
-        <span class="text-lg md:text-xl font-bold text-indigo-700">SoumyaBank</span>
+
+      <!-- Logo Section -->
+      <div class="flex items-center space-x-3 bg-white/40 px-3 py-1 rounded-full backdrop-blur-md shadow-md border border-white/30">
+        <div class="w-9 h-9 bg-gradient-to-r from-indigo-600 to-purple-500 rounded-full flex items-center justify-center text-white font-bold shadow-inner">S</div>
+        <span class="text-lg md:text-xl font-semibold text-white drop-shadow-sm">SoumyaBank</span>
       </div>
 
-      <!-- Links -->
-      <div class="hidden sm:flex space-x-6 text-gray-800 font-medium">
-        <a href="#" onclick="openAbout()" class="hover:text-indigo-600 transition">About</a>
-        <a href="https://www.linkedin.com" target="_blank" class="hover:text-indigo-600 transition">LinkedIn</a>
-        <a href="https://github.com/SoumyaranjanDS" target="_blank" class="hover:text-indigo-600 transition">GitHub</a>
-        <a href="#" onclick="openContact()" class="hover:text-indigo-600 transition">Contact</a>
+      <!-- Nav Links -->
+      <div class="hidden sm:flex space-x-6 text-white font-medium">
+        <a href="#" onclick="openAbout()" class="hover:text-yellow-200 transition transform hover:-translate-y-0.5">About</a>
+        <a href="https://www.linkedin.com" target="_blank" class="hover:text-yellow-200 transition transform hover:-translate-y-0.5">LinkedIn</a>
+        <a href="https://github.com/SoumyaranjanDS" target="_blank" class="hover:text-yellow-200 transition transform hover:-translate-y-0.5">GitHub</a>
+        <a href="#" onclick="openContact()" class="hover:text-yellow-200 transition transform hover:-translate-y-0.5">Contact</a>
       </div>
 
       <!-- Mobile Menu Button -->
-      <button id="menuBtn" class="sm:hidden text-indigo-700 font-bold text-xl focus:outline-none">☰</button>
+      <button id="menuBtn" class="sm:hidden text-white font-bold text-2xl focus:outline-none transform transition hover:scale-105">☰</button>
     </div>
 
     <!-- Mobile Dropdown -->
-    <div id="mobileMenu" class="hidden flex-col bg-white/80 backdrop-blur-md text-gray-800 font-medium sm:hidden px-6 pb-3 space-y-2">
-      <a href="#" onclick="openAbout(); toggleMenu()" class="hover:text-indigo-600 transition">About</a>
-      <a href="https://www.linkedin.com" target="_blank" class="hover:text-indigo-600 transition">LinkedIn</a>
-      <a href="https://github.com/SoumyaranjanDS" target="_blank" class="hover:text-indigo-600 transition">GitHub</a>
-      <a href="#" onclick="openContact(); toggleMenu()" class="hover:text-indigo-600 transition">Contact</a>
+    <div id="mobileMenu" class="hidden sm:hidden bg-white/80 backdrop-blur-md text-gray-800 font-medium flex-col px-6 pb-3 space-y-2 border-t border-white/40 absolute top-0 right-0 w-full h-full p-5 overflow-auto mobile-menu-enter">
+      <a href="#" onclick="openAbout(); toggleMenu()" class="hover:text-indigo-600 transition py-2 text-xl">About</a>
+      <a href="https://www.linkedin.com" target="_blank" class="hover:text-indigo-600 transition py-2 text-xl">LinkedIn</a>
+      <a href="https://github.com/SoumyaranjanDS" target="_blank" class="hover:text-indigo-600 transition py-2 text-xl">GitHub</a>
+      <a href="#" onclick="openContact(); toggleMenu()" class="hover:text-indigo-600 transition py-2 text-xl">Contact</a>
     </div>
   </nav>
 
@@ -63,7 +77,6 @@
   <div class="w-full max-w-2xl bg-white/40 backdrop-blur-md shadow-xl rounded-2xl p-5 sm:p-6 mt-28 mb-10 border border-white/30 mx-3">
     <h1 class="text-2xl md:text-3xl font-bold text-center text-indigo-700 mb-6">Welcome to SoumyaBank</h1>
 
-    <!-- Menu Buttons -->
     <div class="flex flex-wrap justify-center gap-2 mb-5">
       <button onclick="showSection('create')" class="w-28 sm:w-auto px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm md:text-base transition">Create</button>
       <button onclick="showSection('deposit')" class="w-28 sm:w-auto px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 text-sm md:text-base transition">Deposit</button>
@@ -74,7 +87,6 @@
 
     <div id="message" class="text-center text-sm mb-3 text-blue-700 font-semibold"></div>
 
-    <!-- Create Account -->
     <div id="create" class="hidden">
       <h2 class="text-lg font-semibold mb-2 text-gray-700">Create Account</h2>
       <input id="createAccNo" type="number" placeholder="Account Number" class="w-full mb-2 border rounded p-2" />
@@ -83,7 +95,6 @@
       <button onclick="createAccount()" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">Create</button>
     </div>
 
-    <!-- Deposit -->
     <div id="deposit" class="hidden">
       <h2 class="text-lg font-semibold mb-2 text-gray-700">Deposit Money</h2>
       <input id="depositAccNo" type="number" placeholder="Account Number" class="w-full mb-2 border rounded p-2" />
@@ -91,7 +102,6 @@
       <button onclick="depositMoney()" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition">Deposit</button>
     </div>
 
-    <!-- Withdraw -->
     <div id="withdraw" class="hidden">
       <h2 class="text-lg font-semibold mb-2 text-gray-700">Withdraw Money</h2>
       <input id="withdrawAccNo" type="number" placeholder="Account Number" class="w-full mb-2 border rounded p-2" />
@@ -99,21 +109,18 @@
       <button onclick="withdrawMoney()" class="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600 transition">Withdraw</button>
     </div>
 
-    <!-- Check -->
     <div id="check" class="hidden">
       <h2 class="text-lg font-semibold mb-2 text-gray-700">Check Balance</h2>
       <input id="checkAccNo" type="number" placeholder="Account Number" class="w-full mb-2 border rounded p-2" />
       <button onclick="checkBalance()" class="w-full bg-indigo-500 text-white py-2 rounded hover:bg-indigo-600 transition">Check</button>
     </div>
 
-    <!-- View All -->
     <div id="view" class="hidden">
       <h2 class="text-lg font-semibold mb-2 text-gray-700">All Accounts</h2>
       <div id="accountsList" class="text-sm bg-white/60 backdrop-blur-md border rounded p-3"></div>
     </div>
   </div>
 
-  <!-- Footer -->
   <footer class="mt-auto py-4 text-center text-gray-700 text-sm bg-white/20 backdrop-blur-md w-full border-t border-white/30">
     © 2025 SoumyaBank. All rights reserved.
   </footer>
@@ -228,7 +235,7 @@
       el.className = `text-center mb-3 font-semibold text-${color}-600`;
     }
 
-    // Modal handling
+    // Modals
     const aboutModal = document.getElementById("aboutModal");
     const contactModal = document.getElementById("contactModal");
 
@@ -252,11 +259,12 @@
     }
     contactModal.addEventListener("click", () => closeContact());
 
-    // Mobile menu toggle
+    // Mobile menu
     const menuBtn = document.getElementById("menuBtn");
     const mobileMenu = document.getElementById("mobileMenu");
     function toggleMenu() {
       mobileMenu.classList.toggle("hidden");
+      mobileMenu.classList.add("mobile-menu-enter-active");
     }
     menuBtn.addEventListener("click", toggleMenu);
 
